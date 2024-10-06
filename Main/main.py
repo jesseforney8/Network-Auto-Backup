@@ -155,20 +155,25 @@ def find_back_up_device():
     device = c.execute(f"SELECT *, oid FROM devices WHERE oid = {d}")
     return device
 
-def update_record(bool, col):
+def update_record(bool):
     d = my_tree.selection()[0]
     conn = sqlite3.connect("devices.db")
     c = conn.cursor()
-    c.execute(f" UPDATE devices SET {col} = {bool} WHERE oid = {d}")
-    conn.commit()
+
+    dt = str(datetime.now())
+    print(dt)
+    dt = dt.replace(" ", "")
+    print(dt)
+    dt = dt.replace(":", "-")
+    print(dt)
+
+    c.execute(f" UPDATE devices SET backed_up = {bool}, date1 = {dt} WHERE oid = {d}")
     conn.close()
 
-def update_record1(date1, col, id):
+def update_record1(date1, id):
     conn = sqlite3.connect("devices.db")
     c = conn.cursor()
-    test1 = f"UPDATE devices SET {col} = {date1} WHERE oid = {id}"
-    print(test1)
-    c.execute(f"UPDATE devices SET {col}={date1} WHERE oid={id}")
+    c.execute(f"UPDATE devices SET date1 = {date1} WHERE oid = {id}")
     conn.commit()
     c.close()
     conn.close()
@@ -184,11 +189,11 @@ def back_up1():
 
         try:
             back_up(d[1], d[2], d[3], d[4], d[5], datetime.now())
-            update_record(True, "backed_up")
+            update_record(True)
             refresh_view()
             messagebox.showinfo(title="Back Up Success", message="Back Up Success")
         except:
-            update_record(False, "backed_up")
+            update_record(False)
             refresh_view()
             messagebox.showinfo(title="Back Up Failure", message="Back Up Failure")
        
@@ -326,12 +331,18 @@ def auto_back_up():
             except:
                 pass
         
+        
+            dt = str(datetime.now())
+            dt = dt.replace(" ", "")
+            dt = dt.replace(":", "-")
+            
+            update_record1(id=d[9], date1=dt)
         completed = True
-        update_record1(datetime.now(), "date1", d[9])
     refresh_view()
 
 
 
+auto_back_up()
 
 root.mainloop()
 
