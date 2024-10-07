@@ -55,6 +55,7 @@ def update_record(bool):
     conn.close()
 
 def update_record1(date1, id):
+<<<<<<< HEAD
         conn = sqlite3.connect("devices.db")
         c = conn.cursor()
 
@@ -68,6 +69,14 @@ def update_record1(date1, id):
         conn.commit()
         c.close()
         conn.close()
+=======
+    conn = sqlite3.connect("devices.db")
+    c = conn.cursor()
+    c.execute(f"UPDATE devices SET date1 = {date1} WHERE oid = {id}")
+    conn.commit()
+    c.close()
+    conn.close()
+>>>>>>> 894aa887b6478177edac80f13b8b7cfc488807cc
 
 def refresh_view():
     my_tree.delete(*my_tree.get_children())
@@ -143,6 +152,7 @@ def main_func():
             "filepath": filepath_input.get(),
         }
         try:
+<<<<<<< HEAD
             back_up(input_form["ip"], input_form["username"], input_form["password"], input_form["secret"], input_form["filepath"], datetime.now())
             conn = sqlite3.connect("devices.db")
             c = conn.cursor()
@@ -176,6 +186,17 @@ def main_func():
         except:
     
             
+=======
+            back_up(d[1], d[2], d[3], d[4], d[5], datetime.now())
+            update_record(True)
+            refresh_view()
+            messagebox.showinfo(title="Back Up Success", message="Back Up Success")
+        except:
+            update_record(False)
+            refresh_view()
+            messagebox.showinfo(title="Back Up Failure", message="Back Up Failure")
+       
+>>>>>>> 894aa887b6478177edac80f13b8b7cfc488807cc
 
             conn = sqlite3.connect("devices.db")
             c = conn.cursor()
@@ -377,8 +398,29 @@ x.start()
 x1.start()
 
 
+<<<<<<< HEAD
+=======
+    for d in search_db():
+        completed = False
+        if now[1] == "05" and completed == False :
+            try:
+                back_up(d[1], d[2], d[3], d[4], d[5], datetime.now())
+                print("backed up!")
+            except:
+                pass
+        
+        
+            dt = str(datetime.now())
+            dt = dt.replace(" ", "")
+            dt = dt.replace(":", "-")
+            
+            update_record1(id=d[9], date1=dt)
+        completed = True
+    refresh_view()
+>>>>>>> 894aa887b6478177edac80f13b8b7cfc488807cc
 
 
 
+auto_back_up()
 
 
