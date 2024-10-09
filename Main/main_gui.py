@@ -2,11 +2,9 @@ import tkinter as tk
 from net_backup import back_up
 import sqlite3
 from tkinter import ttk, messagebox
-from datetime import datetime, time
-import asyncio
-from time import sleep
-import time
-import threading
+from datetime import datetime
+
+
 
 #functions
 
@@ -340,41 +338,9 @@ def main_func():
 
 
 
-#automatic back ups daily at midnight
-def auto_back_up():
-    is_running = True
-    while is_running:
-
-        #check time
-        now = datetime.now()
-        now = str(now)
-        now = now.rsplit(" ")
-        now[1] = now[1][0:2]
-        now[0] = now[0][-2:]
-        t = now[1]
-
-        #if time is 12 then back up
-
-        if t == "13":
-
-            #for every entry, back up
-            for d in search_db():
-                try:
-                    back_up(d[1], d[2], d[3], d[4], d[5], datetime.now())
-                    print("backed up!")
-                except:
-                    print("failed backed up!")
-                
-                update_record1(id=d[9], date1=datetime.now())
-                refresh_view()
-            time.sleep(3600)
 
 
-x = threading.Thread(target=main_func, args=())
-x1 = threading.Thread(target=auto_back_up, args=())
 
-x.start()
-x1.start()
 
 
 
