@@ -7,7 +7,8 @@ import time
 def auto_back_up():
     is_running = True
     while is_running:
-
+        time.sleep(3)
+        print("auto backup is running!")
         #check time
         now = datetime.now()
         now = str(now)
@@ -18,7 +19,7 @@ def auto_back_up():
 
         #if time is 12 then back up
 
-        if t == "13":
+        if t == "23":
 
             #for every entry, back up
             for d in search_db():

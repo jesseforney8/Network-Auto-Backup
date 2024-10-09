@@ -3,6 +3,7 @@ from net_backup import back_up
 import sqlite3
 from tkinter import ttk, messagebox
 from datetime import datetime
+from database import create_db
 
 
 
@@ -93,42 +94,9 @@ def back_up1():
 
 def main_func():
 
-    ## create db
-
-    try:
-
-        ### create or connect to db
-
-        conn = sqlite3.connect("devices.db")
-
-        ### create curser
-        c = conn.cursor()
-
-        ## create table
-
-        c.execute("""CREATE TABLE devices (
-                name text,
-                ip text,
-                username text,
-                password text,
-                secret text,
-                filepath text,
-                backed_up boolean,
-                date1 text,
-                schedule integer
-                )""")
-
-        conn.commit()
-
-    except:
-        pass
-
-
-
-
-
-
-    ### functions 
+    create_db()
+    
+    ### functions
 
     def send_form():
 
@@ -212,7 +180,10 @@ def main_func():
 
 
 
-    
+    def test():
+        print("windows closed")
+        root.destroy()
+        
         
 
     ### tkinter gui
@@ -223,6 +194,8 @@ def main_func():
 
     root.geometry("1200x400")
     root.title("Network-Auto-Backup (NAB)")
+
+    root.protocol("WM_DELETE_WINDOW", func=test)
 
 
     #Frame for form
